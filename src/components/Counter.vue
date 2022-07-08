@@ -26,14 +26,49 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, ComputedRef, onMounted } from 'vue'
 export default defineComponent({
   setup() {
-    const displayDays = ref(0)
-    const displayHours = ref(0)
-    const displayMinutes = ref(0)
-    const displaySeconds = ref(0)
+    const displayDays = ref<string | number>(0)
+    const displayHours = ref<string | number>(0)
+    const displayMinutes = ref<string | number>(0)
+    const displaySeconds = ref<string | number>(0)
 
+    const _seconds: ComputedRef<number> = computed((): number => 1000)
+    const _minutes: ComputedRef<number> = computed((): number => _seconds.value * 60)
+    const _hours: ComputedRef<number> = computed((): number => _minutes.value * 60)
+    const _days: ComputedRef<number> = computed((): number => _hours.value * 60)
+
+    const formatCount = (count: number): number | string => {
+      return count < 10 ? '0' + count : count
+    }
+
+    const showRemaining = () => {
+      const timer = setInterval(() => {
+        const now = new Date()
+        const end = new Date(2022, 11, 31, 23, 59)
+        const distance = end.getTime() - now.getTime()
+
+        if (distance < 0) {
+          clearInterval(timer)
+          return
+        }
+
+        const seconds = Math.floor((distance % _minutes.value) / _seconds.value)
+        const minutes = Math.floor((distance & _hours.value) / _minutes.value)
+        const hours = Math.floor((distance % _days.value) / _hours.value)
+        const days = Math.floor(distance / _days.value)
+
+        displaySeconds.value = formatCount(seconds)
+        displayMinutes.value = formatCount(minutes)
+        displayHours.value = formatCount(hours)
+        displayDays.value = formatCount(days)
+      }, 1000)
+    }
+
+    onMounted(() => {
+      showRemaining()
+    })
 
 
     return {
