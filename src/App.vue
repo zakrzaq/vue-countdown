@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <h1>Navbar</h1>
+  <h1>COUNTDOWN FROM:</h1>
   <router-view />
 </template>
 
