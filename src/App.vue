@@ -3,7 +3,8 @@
 </script>
 
 <template>
-  <h1>Hello</h1>
+  <h1>Navbar</h1>
+  <router-view />
 </template>
 
 <style>
