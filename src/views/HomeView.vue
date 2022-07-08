@@ -13,7 +13,7 @@ export default defineComponent({
     Counter
   },
   setup() {
-    const selectedDate = ref('2022-12-31T24:00')
+    const selectedDate = ref('')
 
     return {
       selectedDate,
