@@ -1,9 +1,10 @@
 <template>
-  <Counter />
+  <input type="datetime-local" v-model="selectedDate" />
+  <Counter :date="selectedDate" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import Counter from '../components/Counter.vue'
 
 export default defineComponent({
@@ -12,7 +13,11 @@ export default defineComponent({
     Counter
   },
   setup() {
-    return {}
+    const selectedDate = ref('2022-12-31T24:00')
+
+    return {
+      selectedDate,
+    }
   },
 })
 </script>

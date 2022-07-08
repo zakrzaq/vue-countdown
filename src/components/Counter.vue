@@ -1,6 +1,7 @@
 <template>
   <div>
-    <section class="text-3xl flex justify-center content-center flex-col mx-auto text-center">Counter</section>
+    <section class="text-3xl flex justify-center content-center flex-col mx-auto text-center">
+    </section>
     <section class="flex text-6xl justify-center content-center">
       <div class="days mr-2 relative">
         {{ displayDays }}
@@ -26,9 +27,13 @@
 </template>
 
 <script lang="ts">
+import { propsToAttrMap } from '@vue/shared'
 import { computed, defineComponent, ref, ComputedRef, onMounted } from 'vue'
 export default defineComponent({
-  setup() {
+  props: {
+    date: String
+  },
+  setup(props) {
     const displayDays = ref<string | number>(0)
     const displayHours = ref<string | number>(0)
     const displayMinutes = ref<string | number>(0)
@@ -46,7 +51,9 @@ export default defineComponent({
     const showRemaining = () => {
       const timer = setInterval(() => {
         const now = new Date()
-        const end = new Date(2022, 11, 31, 23, 59)
+        const dummyDate = '2022-10-30T00:08'
+        const end = !props.date ? new Date(dummyDate) : new Date(props.date)
+
         const distance = end.getTime() - now.getTime()
 
         if (distance < 0) {
@@ -75,7 +82,7 @@ export default defineComponent({
       displayDays,
       displayHours,
       displayMinutes,
-      displaySeconds
+      displaySeconds,
     }
   }
 })
